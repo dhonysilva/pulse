@@ -61,7 +61,8 @@ Pulse.Openai.chat_completion(
   %{
     model: "gpt-3.5-turbo",
     messages: [%{role: "user", content: "Hello 3.5!"}]
-  }
+  },
+  &IO.puts/1
 )
 ```
 
