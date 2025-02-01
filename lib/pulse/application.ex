@@ -9,7 +9,7 @@ defmodule Pulse.Application do
   def start(_type, _args) do
     children = [
       PulseWeb.Telemetry,
-      Pulse.Repo,
+      # Pulse.Repo,
       {DNSCluster, query: Application.get_env(:pulse, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Pulse.PubSub},
       # Start the Finch HTTP client for sending emails
