@@ -21,6 +21,24 @@ To start this Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+### Working with data
+
+```
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", messages: [%{role: "user", content: "Hello 3.5!"}] })
+```
+
+```
+{:ok, %{body: response}} =
+
+Pulse.Openai.chat_completion(
+  %{
+    model: "gpt-3.5-turbo",
+    stream: true,
+    messages: [%{role: "user", content: "Hello 3.5!"}]
+  },
+  &IO.puts/1
+)
+```
 
 ### Dealing with building artifacts problems
 

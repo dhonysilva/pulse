@@ -20,6 +20,12 @@ if System.get_env("PHX_SERVER") do
   config :pulse, PulseWeb.Endpoint, server: true
 end
 
+if config_env() == :dev do
+  DotenvParser.load_file(".env")
+end
+
+config :pulse, :openai, api_key: System.fetch_env!("OPENAI_API_KEY")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

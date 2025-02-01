@@ -32,6 +32,8 @@ defmodule Pulse.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:dotenv_parser, "~> 2.0"},
+      {:req, "~> 0.4.0"},
       {:phoenix, "~> 1.7.18"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
