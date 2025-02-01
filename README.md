@@ -13,6 +13,33 @@ Typed below the sequence tutorial's parts:
 - [Part 02](url)
 - [Part 03](url)
 
+In other to develop this project, you will need to create an OpenAI account and get your API key.
+
+I'm storing my API key in a `.env` file in the root of the project. You can create your own `.env` file and add the following content:
+
+```bash
+OPENAI_API_KEY="your-openai-key"
+```
+
+Add the following dependencies to your `mix.exs` file:
+
+```elixir
+{:dotenv_parser, "~> 2.0"},
+```
+
+And these instructions to your `runtime.exs`:
+
+```elixir
+if config_env() == :dev do
+  DotenvParser.load_file(".env")
+end
+```
+
+```elixir
+config :pulse, :openai, api_key: System.fetch_env!("OPENAI_API_KEY")
+```
+
+
 ### Setting up the project
 To start this Phoenix server:
 
@@ -33,7 +60,6 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 Pulse.Openai.chat_completion(
   %{
     model: "gpt-3.5-turbo",
-    stream: true,
     messages: [%{role: "user", content: "Hello 3.5!"}]
   },
   &IO.puts/1

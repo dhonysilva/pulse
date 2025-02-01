@@ -14,6 +14,12 @@ defmodule PulseWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", PulseWeb do
+    pipe_through [:api]
+
+    post "/chat", ChatController, :stream
+  end
+
   scope "/", PulseWeb do
     pipe_through :browser
 
