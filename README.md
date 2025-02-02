@@ -4,14 +4,13 @@ Application created during the process of learning how to Streaming OpenAI in El
 
 
 ## Learn more
-I walked through this tutorial's series by [Ben Reinhart](https://benreinhart.com/blog/openai-streaming-elixir-phoenix/) following each step to build this project.
+I walked through this tutorial's series by [Ben Reinhart](https://github.com/benjreinhart) following each step to build this project.
 
+Here is the sequence of tutorials:
 
-Typed below the sequence tutorial's parts:
-
-- [Part 01](url)
-- [Part 02](url)
-- [Part 03](url)
+- [Part 01](https://benreinhart.com/blog/openai-streaming-elixir-phoenix/)
+- [Part 02](https://benreinhart.com/blog/openai-streaming-elixir-phoenix-part-2/)
+- [Part 03](https://benreinhart.com/blog/openai-streaming-elixir-phoenix-part-3/)
 
 In other to develop this project, you will need to create an OpenAI account and get your API key.
 
@@ -50,6 +49,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ### Working with data
 
+During the developemnt, you can use the instructions below to interact wit the `chat_completion` function.
+
 ```
 {:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", messages: [%{role: "user", content: "Hello 3.5!"}] })
 ```
@@ -65,6 +66,17 @@ Pulse.Openai.chat_completion(
   &IO.puts/1
 )
 ```
+
+### The final project. How it looks like
+
+The text form to with your questions.
+
+![The text form to with your questions!](priv/static/images/question_form.png "The text form")
+
+The response streaming from OpenAI.
+
+![The response streaming from OpenAI!](priv/static/images/response_openai_form.png "The response streaming from OpenAI")
+
 
 ### Dealing with building artifacts problems
 
