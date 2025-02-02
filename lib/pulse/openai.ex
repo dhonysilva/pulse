@@ -13,7 +13,8 @@ defmodule Pulse.Openai do
       json: set_stream(request, true),
       auth: {:bearer, api_key()},
       into: fn {:data, data}, acc ->
-        Enum.each(parse(data), callback)
+        {_buffer, events} = parse([], data)
+        Enum.each(events, callback)
         {:cont, acc}
       end
     )
@@ -25,17 +26,27 @@ defmodule Pulse.Openai do
     |> Map.put("stream", value)
   end
 
-  defp parse(chunck) do
-    chunck
-    |> String.split("data: ")
-    |> Enum.map(&String.trim/1)
-    |> Enum.map(&decode/1)
-    |> Enum.reject(&is_nil/1)
+  def parse(buffer, chunk) do
+    parse(buffer, chunk, [])
   end
 
-  defp decode(""), do: nil
-  defp decode("[DONE]"), do: nil
-  defp decode(data), do: Jason.decode!(data)
+  defp parse([buffer | "\n"], "\n" <> rest, events) do
+    case IO.iodata_to_binary(buffer) do
+      "data: [DONE]" ->
+        parse([], rest, events)
+
+      "data: " <> event ->
+        parse([], rest, [Jason.decode!(event) | events])
+    end
+  end
+
+  defp parse(buffer, <<char::utf8, rest::binary>>, events) do
+    parse([buffer | <<char::utf8>>], rest, events)
+  end
+
+  defp parse(buffer, "", events) do
+    {buffer, Enum.reverse(events)}
+  end
 
   defp api_key() do
     Application.get_env(:pulse, :openai)[:api_key]
