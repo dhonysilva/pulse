@@ -24,6 +24,7 @@ defmodule PulseWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/chats", ChatLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
