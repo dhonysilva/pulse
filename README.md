@@ -69,6 +69,8 @@ Pulse.Openai.chat_completion(
 
 ### The final project. How it looks like
 
+The chat is available on chats router. You can visit [`localhost:4000/chats`](http://localhost:4000/chats) from your browser.
+
 The text form to with your questions.
 
 ![The text form to with your questions!](priv/static/images/question_form.png "The text form")
