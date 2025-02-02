@@ -9,15 +9,31 @@ defmodule Pulse.Openai do
   end
 
   def chat_completion(request, callback) do
-    Req.post(@chat_completions_url,
-      json: set_stream(request, true),
-      auth: {:bearer, api_key()},
-      into: fn {:data, data}, acc ->
-        {_buffer, events} = parse([], data)
-        Enum.each(events, callback)
-        {:cont, acc}
-      end
-    )
+    # Initialize buffer state
+    {:ok, agent} = Agent.start_link(fn -> [] end)
+
+    response =
+      Req.post(@chat_completions_url,
+        json: set_stream(request, true),
+        auth: {:bearer, api_key()},
+        into: fn {:data, data}, acc ->
+          # Get previous buffer value
+          buffer = Agent.get(agent, & &1)
+
+          {buffer, events} = parse(buffer, data)
+          Enum.each(events, callback)
+
+          # Update buffer value with the result from calling parse/2
+          :ok = Agent.update(agent, fn _ -> buffer end)
+
+          {:cont, acc}
+        end
+      )
+
+    # Make sure we shut the agent down
+    :ok = Agent.stop(agent)
+
+    response
   end
 
   defp set_stream(request, value) do
