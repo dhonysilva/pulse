@@ -11,6 +11,7 @@ defmodule PulseWeb.ChatLive.Index do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("submit", %{"content" => content}, socket) do
     message = %{role: :user, content: content}
 
