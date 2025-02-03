@@ -1,6 +1,6 @@
 # Pulse
 
-Application created during the process of learning how to Streaming OpenAI in Elixir and Phoenix.
+Application created while I was learning how to Streaming OpenAI in Elixir and Phoenix.
 
 
 ## Learn more
@@ -12,7 +12,7 @@ Here is the sequence of tutorials:
 - [Part 02](https://benreinhart.com/blog/openai-streaming-elixir-phoenix-part-2/)
 - [Part 03](https://benreinhart.com/blog/openai-streaming-elixir-phoenix-part-3/)
 
-In other to develop this project, you will need to create an OpenAI account and get your API key.
+In order to develop this project, you will need to create an OpenAI account and obtain your API key.
 
 I'm storing my API key in a `.env` file in the root of the project. You can create your own `.env` file and add the following content:
 
@@ -79,6 +79,12 @@ The response streaming from OpenAI.
 
 ![The response streaming from OpenAI!](priv/static/images/response_openai_form.png "The response streaming from OpenAI")
 
+## Dependecies
+
+This project relies on these dependencies:
+
+* Req ([link](https://hexdocs.pm/req/readme.html)), for HTTP requests
+* DotenvParser ([link](https://hexdocs.pm/dotenv_parser/DotenvParser.html)), for parsing `.env` files
 
 ### Dealing with building artifacts problems
 
