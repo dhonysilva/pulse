@@ -67,6 +67,143 @@ Pulse.Openai.chat_completion(
 )
 ```
 
+#### Playing with the `chat_completion/1` function.
+
+Open your `iex` terminal.
+
+
+Define the `messages` variable:
+
+```elixir
+messages = [%{role: "user", content: "O que é uma maçã em 5 palavras?"}]
+```
+
+Passing the messages variable to the function calling:
+
+```elixir
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", messages: messages })
+```
+
+You can add more parameters as max_tokens, temperature, etc.
+
+```elixir
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", max_tokens: 1000, temperature: 0, messages: messages })
+```
+
+Here is a simple way you can obtain the response `content` utilizing the `Map` functions:
+
+```elixir
+content = response |> Map.get("choices") |> Enum.at(0) |> Map.get("message") |> Map.get("content")
+```
+
+And there's a better way to perform it, utilizing the pattern matching.
+
+To obtain the `finish_reason`:
+
+```elixir
+%{"choices" => [%{"finish_reason" => finish_reason}]} = response
+```
+
+Type `finish_reason` and you will see the value "stop".
+
+And to obtian the message `content`:
+
+```elixir
+%{"choices" => [%{"message" => %{ "content" => content }}]} = response
+```
+
+Type `content` and you will see the value "Fruta redonda e saborosa.".
+
+As you can see, pattern matching is a powerful tool in Elixir for parsing nested data structures. So, you can use it to extract the data you need. Get used to it.
+
+### Organizing the sequence of conversarion
+
+1. Define the messages Map
+
+```elixir
+messages = [%{role: "user", content: "O que é uma maçã em até 5 palavras?"}]
+```
+
+2. Call the prompt with our initial messages Map
+
+```elixir
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", max_tokens: 1000, temperature: 0, messages: messages })
+```
+
+It will generate our response. Note the message Map returned:
+
+```json
+"message" => %{
+        "content" => "Fruta redonda e saborosa.",
+        "refusal" => nil,
+        "role" => "assistant"
+      }
+```
+
+3. Pattern matching the response to obtain the message node.
+
+```elixir
+%{"choices" => [%{"message" => message}]} = response
+```
+
+
+4. Add the message to the messages Map.
+
+```elixir
+messages = messages ++ [message]
+```
+
+This will be the result of the new messages Map
+
+```json
+[
+  %{role: "user", content: "O que é uma maçã em até 5 palavras?"},
+  %{
+    "content" => "Fruta redonda e saborosa.",
+    "refusal" => nil,
+    "role" => "assistant"
+  }
+]
+```
+
+
+5. Add the map for the next question to the messages Map.
+
+```elixir
+messages = messages ++ [%{role: "user", content: "E qual a sua cor?"}]
+```
+
+The new result of messages Map:
+
+```json
+[
+  %{role: "user", content: "O que é uma maçã em até 5 palavras?"},
+  %{
+    "content" => "Fruta redonda e saborosa.",
+    "refusal" => nil,
+    "role" => "assistant"
+  },
+  %{role: "user", content: "E qual a sua cor?"}
+]
+```
+
+And process the prompt again, now with the messages Map containing the first and the last message.
+Processa novamente o prompt.
+
+```elixir
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", max_tokens: 1000, temperature: 0, messages: messages })
+```
+
+Note the new content returned on the message Map.
+
+```json
+"message" => %{
+           "content" => "Vermelha ou verde.",
+           "refusal" => nil,
+           "role" => "assistant"
+         }
+```
+
 ### The final project. How it looks like
 
 The chat is available on chats router. You can visit [`localhost:4000/chats`](http://localhost:4000/chats) from your browser.
