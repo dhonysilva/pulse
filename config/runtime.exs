@@ -25,6 +25,7 @@ if config_env() == :dev do
 end
 
 config :pulse, :openai, api_key: System.fetch_env!("OPENAI_API_KEY")
+# config :pulse, :maritaca, maritaca_api_key: System.fetch_env!("MARITACA_API_KEY")
 
 if config_env() == :prod do
   database_url =

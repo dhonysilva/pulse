@@ -1,0 +1,32 @@
+# Executing Custom Elixir functions
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.14.0"}
+])
+```
+
+## Section
+
+<!-- livebook:{"attrs":"eyJhc3NpZ25fdG8iOiJyZXN1bHQiLCJjb2RlIjoiOm9rIiwiY29va2llIjoiIiwiY29va2llX3NlY3JldCI6IkNPT0tJRV8wMiIsIm5vZGUiOiJwdWxzZS1hcHBAZGhvbnkuYXBwIiwibm9kZV9zZWNyZXQiOiIiLCJ1c2VfY29va2llX3NlY3JldCI6dHJ1ZSwidXNlX25vZGVfc2VjcmV0IjpmYWxzZX0","chunks":null,"kind":"Elixir.Kino.RemoteExecutionCell","livebook_object":"smart_cell"} -->
+
+```elixir
+require Kino.RPC
+node = :"pulse-app@dhony.app"
+Node.set_cookie(node, String.to_atom(System.fetch_env!("LB_COOKIE_02")))
+result = Kino.RPC.eval_string(node, ~S":ok", file: __ENV__.file)
+```
+
+```elixir
+messages = [%{role: "user", content: "O que é uma maçã em 5 palavras?"}]
+```
+
+```elixir
+{:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", max_tokens: 1000, temperature: 0, messages: messages })
+```
+
+```elixir
+
+```
+
+<!-- livebook:{"offset":909,"stamp":{"token":"XCP.y68OZAmXc6XMaOsgAfewXZsxCy53F_3HxnTqth1byhK2RAtR4wQW-PPfEMhHivb5723iJt0y3uX8x7CM8Q-utSRiEMoJz4xtu3JHPfE25BtuMEIRwESai2bLShmAReQ","version":2}} -->
