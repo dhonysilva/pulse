@@ -208,6 +208,13 @@ Note the new content returned on the message Map.
 
 For an interactive example, you can utilize the [Livebook Getting Started - Consuming the Pulse functions](notebooks/getting_started.livemd). More instructions will be provided soon.
 
+Start the application with a fully qualified node name (the `--name` command-line option) with a cookie, and then conect the Livebook to it.
+
+```elixir
+iex --name pulse-app@127.0.0.1 --cookie pulse-secret -S mix phx.server
+```
+
+See below the configs with the _Remote execution_ smart cell.
 
 ![The Livebook conection to the Phoenix Application node](priv/static/images/getting_started_livebook.png "The Livebook navigation")
 
