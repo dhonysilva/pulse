@@ -1,0 +1,32 @@
+# Getting Started - Consuming the Pulse functions
+
+```elixir
+Mix.install([
+  {:kino, "~> 0.14.0"}
+])
+```
+
+## Section
+
+After instaling the depedency, we can connect to our Phoenix Pulse Application.
+
+<!-- livebook:{"attrs":"eyJhc3NpZ25fdG8iOiJyZXN1bHQiLCJjb2RlIjoibWVzc2FnZXMgPSBbJXtyb2xlOiBcInVzZXJcIiwgY29udGVudDogXCJPIHF1ZSDDqSB1bWEgbWHDp8OjIGVtIDUgcGFsYXZyYXM/XCJ9XVxuXG57Om9rLCAle2JvZHk6IHJlc3BvbnNlfX0gPSBQdWxzZS5PcGVuYWkuY2hhdF9jb21wbGV0aW9uKCV7IG1vZGVsOiBcImdwdC0zLjUtdHVyYm9cIiwgbWVzc2FnZXM6IG1lc3NhZ2VzIH0pIiwiY29va2llIjoiIiwiY29va2llX3NlY3JldCI6IkNPT0tJRV8wMiIsIm5vZGUiOiJwdWxzZS1hcHBAMTI3LjAuMC4xIiwibm9kZV9zZWNyZXQiOiIiLCJ1c2VfY29va2llX3NlY3JldCI6dHJ1ZSwidXNlX25vZGVfc2VjcmV0IjpmYWxzZX0","chunks":null,"kind":"Elixir.Kino.RemoteExecutionCell","livebook_object":"smart_cell"} -->
+
+```elixir
+require Kino.RPC
+node = :"pulse-app@127.0.0.1"
+Node.set_cookie(node, String.to_atom(System.fetch_env!("LB_COOKIE_02")))
+
+result =
+  Kino.RPC.eval_string(
+    node,
+    ~S"""
+    messages = [%{role: "user", content: "O que é uma maçã em 5 palavras?"}]
+
+    {:ok, %{body: response}} = Pulse.Openai.chat_completion(%{ model: "gpt-3.5-turbo", messages: messages })
+    """,
+    file: __ENV__.file
+  )
+```
+
+<!-- livebook:{"offset":1206,"stamp":{"token":"XCP.eYmuNWQBjp0TI5Tap2ZR0i-ap1PDfRhEhJeeHysjX3HE93OGKa5L3hxaDl8E89_xTNo0oKLWvTD1ZNtP3GUcKkyQzZI6LLJaeASSLaf9vsGrZQNk","version":2}} -->

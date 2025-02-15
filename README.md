@@ -204,6 +204,15 @@ Note the new content returned on the message Map.
          }
 ```
 
+### Livebook
+
+For an interactive example, you can utilize the [Livebook Getting Started - Consuming the Pulse functions](notebooks/getting_started.livemd). More instructions will be provided soon.
+
+
+![The Livebook conection to the Phoenix Application node](priv/static/images/getting_started_livebook.png "The Livebook navigation")
+
+
+
 ### The final project. How it looks like
 
 The chat is available on chats router. You can visit [`localhost:4000/chats`](http://localhost:4000/chats) from your browser.
